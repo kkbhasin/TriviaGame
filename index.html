@@ -16,11 +16,12 @@
         <h1>GAME OF THRONES TV TRIVIA MANIA</h1>
         <h2><span id="timer"></span></h2>
         <h2><span id="question"></span></h2>
-        <ul></ul>
-        <ul></ul>
-        <ul></ul>
-        <ul></ul>
-        <button class="btn btn-primary btn-lg startButton">Start the game!</button>
+        <button class="btn btn-outline-primary optBtn"><ul></ul></button> 
+        <button class="btn btn-outline-success optBtn"><ul></ul></button> 
+        <button class="btn btn-outline-danger optBtn"><ul></ul></button> 
+        <button class="btn btn-outline-warning optBtn"><ul></ul></button> 
+        <button class="btn btn-primary btn-lg" id="startBtn">Start the game!</button>
+        <button class="btn btn-primary btn-lg" id="nextBtn">Next...</button>
     </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -49,7 +50,9 @@ var game  = {
             "assets/images/q2",
             "assets/images/q3",
         ]
-}        
+}       
+
+    $(".optBtn").hide();
 
     var correct;
     var incorrect;
@@ -58,24 +61,48 @@ var game  = {
         nextQuestion();
     }
 
-    function nextQuestion () {
-        for (i=0; i<game.length; i++) {
-            var question = $("#question").text(game.question[i]);
-            var options = $("<ul>").text(game.options[i]);
-            var answer = $("#answer").text(game.answer[i]);
-            var image = $("<img>").
+    function nextQuestion() {
+        var quest;
+        var opt;
+        var ans;
+        var img;
 
-            $("#timer").append(timeout);
-            $("#question").append(question);
-            $("#<ul>").append(options);
-        }
+    for (i=0; i<game.question.length; i++) {
+        quest = $("#question").text(game.question[i]);
+        // ans = $("#answer").text(game.answer);
+        // img = $("<img>").
+
+        // $("#timer").append(timeout);
+        // $("#question").append(quest);
+
+        $("<ul>").each(function() {
+            ("#startBtn").hide();
+            ()
+            $(this).text(game.options[i]);
+            $(".optBtn").show();
+        })        
+    }
+
+        $("<ul>").on("click", function() {
+        // if (options === answer) {
+        //     setTimeout() {
+
+        //     }
+        // }
+        // else {
+        //     setTimeout() {
+
+        //     }
+        // }
+        })
     }
 
     var timeout = window.setTimeout(nextQuestion, 30000);
 
-    $("#startButton").on("click", function() {
-        newGame();
+    $("#startBtn").on("click", function() {
+        nextQuestion();
     })
+
 </script>
 
 
