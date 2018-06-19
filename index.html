@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,100 +12,117 @@
     <link rel="stylesheet" href="assets/css/style.css">
 
 </head>
+
 <body>
     <div class="jumbotron text-center col-10">
         <h1>GAME OF THRONES TV TRIVIA MANIA</h1>
-        <h2><span id="timer"></span></h2>
-        <h2><span id="question"></span></h2>
-        <button class="btn btn-outline-primary optBtn"><ul></ul></button> 
-        <button class="btn btn-outline-success optBtn"><ul></ul></button> 
-        <button class="btn btn-outline-danger optBtn"><ul></ul></button> 
-        <button class="btn btn-outline-warning optBtn"><ul></ul></button> 
+        <h2>
+            <span id="timeout"></span>
+        </h2>
+        <h2>
+            <span id="question"></span>
+        </h2>
+        <h2>
+            <span id="answer"></span>
+        </h2>
+        <button class="btn btn-outline-primary optBtn"></button>
+        <button class="btn btn-outline-success optBtn"></button>
+        <button class="btn btn-outline-danger optBtn"></button>
+        <button class="btn btn-outline-warning optBtn"></button>
         <button class="btn btn-primary btn-lg" id="startBtn">Start the game!</button>
         <button class="btn btn-primary btn-lg" id="nextBtn">Next...</button>
     </div>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="assets/javascript/app.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
 
-<script>
+    <script>
 
-var game  = {
-        question: [
-            "How did Daenarys Targaryen eventually hatch her dragon eggs?",
-            "The phrase 'Valar Morghulis' or 'all men must die' is usually responded with:",
-            "What is the only thing that can put out volatile Wildfire?",
-        ],
-        options: [
-            ["1. In a lightning storm", "2. In a funeral pyre", "3. In a fireplace", "4. In a frozen cave"],
-            ["1. Valar Dohaeris or 'all men must serve'", "2. Valar Rohnas or 'all men must live'", "3. Valar GoGo or 'all men must dance'", "4. Valar Morghulis or 'all men must fight'"],
-            ["1. Sand", "2. Water", "3. Dragon's blood", "4. Sunlight"]
-        ],
-        answer: [
-            "2. In a funeral pyre",
-            "1. Valar Dohaeris or 'all men must serve'",
-            "1. Sand",
-        ],
-        image: [
-            "assets/images/q1",
-            "assets/images/q2",
-            "assets/images/q3",
-        ]
-}       
+        var index = [0, 1, 2]
+        //  To set global variables and objects. 
+        var game = {
+            q1: [
+                "How did Daenarys Targaryen eventually hatch her dragon eggs?",
+                ["1. In a lightning storm", "2. In a funeral pyre", "3. In a fireplace", "4. In a frozen cave"],
+                "2. In a funeral pyre",
+                "assets/images/q1",
+            ],
+            q2: [
+                "The phrase 'Valar Morghulis' or 'all men must die' is usually responded with:",
+                ["1. Valar Dohaeris or 'all men must serve'", "2. Valar Rohnas or 'all men must live'", "3. Valar GoGo or 'all men must dance'", "4. Valar Morghulis or 'all men must fight'"],
+                "1. Valar Dohaeris or 'all men must serve'",
+                "assets/images/q2",
+            ],
+            q3: [
+                "What is the only thing that can put out volatile Wildfire?",
+                ["1. Sand", "2. Water", "3. Dragon's blood", "4. Sunlight"],
+                "1. Sand",
+                "assets/images/q3",
+            ]
+        }
+        var correct;
+        var incorrect;
 
-    $(".optBtn").hide();
+        // To hide certain HTML elements before the game starts.
+        $(".optBtn").hide();
+        $("#nextBtn").hide();
 
-    var correct;
-    var incorrect;
 
-    function newGame() {
-        nextQuestion();
-    }
+        function newGame() {
+            nextQuestion();
+        }
 
-    function nextQuestion() {
-        var quest;
-        var opt;
-        var ans;
-        var img;
+        // var timeout = setInterval(nextQuestion, 30000);
+        // $("#timeout").text(timeout);
 
-    for (i=0; i<game.question.length; i++) {
-        quest = $("#question").text(game.question[i]);
-        // ans = $("#answer").text(game.answer);
-        // img = $("<img>").
+        function nextQuestion() {
 
-        // $("#timer").append(timeout);
-        // $("#question").append(quest);
+            var quest;
+            var opt;
+            var ans;
+            var img;
 
-        $("<ul>").each(function() {
-            ("#startBtn").hide();
-            ()
-            $(this).text(game.options[i]);
+            quest = $("#question").text(game.question[i]);
+            ans = game.answer[i];
+            console.log();
+
             $(".optBtn").show();
-        })        
-    }
+            $("#startBtn").hide();
 
-        $("<ul>").on("click", function() {
-        // if (options === answer) {
-        //     setTimeout() {
+            $(".optBtn").each(function () {
+                for (j = 0; j < 4; j++) {
+                    $(this).html(game.options[i][j]);
+                    j++;
+                }
+            })
 
-        //     }
-        // }
-        // else {
-        //     setTimeout() {
 
-        //     }
-        // }
+            $(".optBtn").on("click", function () {
+                $(".optBtn").hide();
+                $("#nextBtn").show();
+                if (game.length === 10) {
+                    alert("final scores");
+                }
+                else if (options === answer) {
+                    $("#answer").text("You guessed correctly, the answer is " + answer);
+                    correct++;
+                    
+                }
+                else {
+                    $("#answer").text("You guessed incorrectly, the answer is " + answer);
+                    incorrect++;
+                    window.setTimeout(nextQuestion, 5000);
+                }
+            })
+        }
+        window.setTimeout(nextQuestion, 30000);
+        $("#startBtn").on("click", function () {
+            newGame();
         })
-    }
 
-    var timeout = window.setTimeout(nextQuestion, 30000);
-
-    $("#startBtn").on("click", function() {
-        nextQuestion();
-    })
-
-</script>
+    </script>
 
 
 </body>
+
 </html>
