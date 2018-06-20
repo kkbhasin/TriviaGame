@@ -16,21 +16,17 @@
 <body>
     <div class="jumbotron text-center col-10">
         <h1>GAME OF THRONES TV TRIVIA MANIA</h1>
-        <h2>
-            <span id="timeout"></span>
-        </h2>
-        <h2>
-            <span id="question"></span>
-        </h2>
-        <h2>
-            <span id="answer"></span>
-        </h2>
-        <button class="btn btn-outline-primary optBtn"></button>
-        <button class="btn btn-outline-success optBtn"></button>
-        <button class="btn btn-outline-danger optBtn"></button>
-        <button class="btn btn-outline-warning optBtn"></button>
+        <h2><span id="timeout"></span></h2>
+        <h2><span id="question"></span></h2>
+        <h2><span id="answer"></span></h2>
+        <h2><span id="correct"></span></h2>
+        <h2><span id="incorrect"></span></h2>
+        <h2><span id="unanswered"></span></h2>
+        <div class="row"><button class="btn btn-outline-primary optBtn"></button></div>
+        <div class="row"><button class="btn btn-outline-success optBtn"></button></div>
+        <div class="row"><button class="btn btn-outline-danger optBtn"></button></div>
+         <div class="row"><button class="btn btn-outline-warning optBtn"></button></div>
         <button class="btn btn-primary btn-lg" id="startBtn">Start the game!</button>
-        <button class="btn btn-primary btn-lg" id="nextBtn">Next...</button>
     </div>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -38,87 +34,184 @@
 
     <script>
 
-        var index = [0, 1, 2]
         //  To set global variables and objects. 
-        var game = {
-            q1: [
+        var game = [
+            [
                 "How did Daenarys Targaryen eventually hatch her dragon eggs?",
                 ["1. In a lightning storm", "2. In a funeral pyre", "3. In a fireplace", "4. In a frozen cave"],
                 "2. In a funeral pyre",
                 "assets/images/q1",
             ],
-            q2: [
+            [
                 "The phrase 'Valar Morghulis' or 'all men must die' is usually responded with:",
                 ["1. Valar Dohaeris or 'all men must serve'", "2. Valar Rohnas or 'all men must live'", "3. Valar GoGo or 'all men must dance'", "4. Valar Morghulis or 'all men must fight'"],
                 "1. Valar Dohaeris or 'all men must serve'",
                 "assets/images/q2",
             ],
-            q3: [
+            [
                 "What is the only thing that can put out volatile Wildfire?",
                 ["1. Sand", "2. Water", "3. Dragon's blood", "4. Sunlight"],
                 "1. Sand",
                 "assets/images/q3",
-            ]
-        }
-        var correct;
-        var incorrect;
+            ],
+            [
+                "Besides dragonglass, what is the only other substance capable of defeating White Walkers?",
+                ["1. Weirwood", "2. Wildfire", "3. Valyrian Steel", "4. Magma"],
+                "3. Valyrian Steel",
+                "assets/images/q4",
+            ],
+            [
+                "Arya's punishment for stealing from the Many-Face God is:",
+                ["1. Death", "2. Memory Loss", "3. Blindness", "4. A Broken Arm"],
+                "3. Blindness",
+                "assets/images/q5",
+            ],
+            [
+                "What was the name of Ned Stark's greatsword?",
+                ["1. Oathkeeper", "2. Deathbringer", "3. Northguard", "4. Ice"],
+                "4. Ice",
+                "assets/images/q6",
+            ],
+            [
+                "Who shoots the flaming arrow that subsequently destroy's Stannis' fleet in Blackwater Bay?",
+                ["1. Tyrion Lannister", "2. King Joffrey", "3. Jaime Lannister", "4. Bronn"],
+                "4. Bronn",
+                "assets/images/q7",
+            ],
+            [
+                "Prince Oberyn Martell is nicknamed the 'Red Viper' because of his combat and:",
+                ["1. Pride in drawing blood first", "2. Knowledge of poisons", "3. Nighttime attacks", "4. Ruby-colored armor"],
+                "2. Knowledge of poisons",
+                "assets/images/q8",
+            ],
+            [
+                "The Night King was created using a dagger made of:",
+                ["1. Blue Ice", "2. Valyrian Steel", "3. Dragonglass", "4. Obsidian"],
+                "3. Dragonglass",
+                "assets/images/q9",
+            ],
+            [
+                "How many arrows does Ramsay Bolton let loose at Rickon Stark?",
+                ["1. Three", "2. Four", "3. Five", "4. Six"],
+                "2. Four",
+                "assets/images/q10",
+            ],
+        ]
+
+        var b = $.extend(true, [], game);
+
+$(document).ready(function(){
+        var correct=0;
+        var incorrect=0;
+        var unanswered=0;
+        var button = $(".optBtn");
+        var start = $("#startBtn");
+        var question = $("#question");
+        var answer = $("#answer");
+        var countdown = $("#timeout");
+        var options;
+        var qCounter = 0;
 
         // To hide certain HTML elements before the game starts.
-        $(".optBtn").hide();
-        $("#nextBtn").hide();
+        button.hide();
 
-
+        // To Initiate the newGame function.
         function newGame() {
             nextQuestion();
         }
 
-        // var timeout = setInterval(nextQuestion, 30000);
-        // $("#timeout").text(timeout);
-
+        // To initiate the nextQuestion function. 
         function nextQuestion() {
+            countdown.show();
+            question.show();
+            button.show();
+            start.hide();
+            answer.empty();
 
-            var quest;
-            var opt;
-            var ans;
+            // Set the ending condition to display the results page. 
+            if (qCounter === 10) {
+                countdown.hide();
+                question.hide();
+                button.hide();
+                start.show();
+                answer.text("You guessed " + correct + " questions correctly, and " + incorrect + " questions incorrectly.");
+                var unans = $("#unanswered");
+                unans.text("You did not answer " + unanswered + " questions.");
+                return;
+            };
+            var quest = question.text(game[0][0]);
+            var ans = game[0][2];
             var img;
+            // console.log();
 
-            quest = $("#question").text(game.question[i]);
-            ans = game.answer[i];
-            console.log();
+            // Set a condition and display for if the counter reaches 0.
+            var counter = 8;
+            var qCountdown = setInterval(function(){
+            counter--
+            countdown.text(counter);
+            if (counter === 0) {
+                clearInterval(qCountdown);
+                countdown.hide();
+                button.hide();
+                answer.text("The correct answer is " + ans + ".");
+                $("#unanswered").text("Uh oh, you did not answer the question in time.");
+                unanswered++;
+                qCounter++;
+                window.setTimeout(nextQuestion, 2000);
+                // return;
+            }
+            }, 1000);
 
-            $(".optBtn").show();
-            $("#startBtn").hide();
+            // To assign each option button with one of the four options.
+            for (i=0; i<4; i++) {
+                btns = {
+                    generator: function () {
+                        return game[0][1][i];
+                    }
+                };
 
-            $(".optBtn").each(function () {
-                for (j = 0; j < 4; j++) {
-                    $(this).html(game.options[i][j]);
-                    j++;
-                }
-            })
+                button.each(function () {
+                    $(this).text(btns.generator());
+                    $(this).attr("data-value", btns.generator());
+                    i++;
+                });
+            }
 
-
-            $(".optBtn").on("click", function () {
-                $(".optBtn").hide();
-                $("#nextBtn").show();
-                if (game.length === 10) {
-                    alert("final scores");
-                }
-                else if (options === answer) {
-                    $("#answer").text("You guessed correctly, the answer is " + answer);
+            // On-click function for the buttons to register a correct or incorrect guess. 
+            button.on("click", function () {
+                button.hide();
+                console.log(b);
+                options = $(this).attr("data-value");
+                if (options === ans) {
+                    countdown.hide();
+                    question.hide();
+                    clearInterval(qCountdown);
+                    answer.text("You guessed correctly, the answer is " + ans);
                     correct++;
-                    
-                }
-                else {
-                    $("#answer").text("You guessed incorrectly, the answer is " + answer);
+                    qCounter++;
+                    button.off("click");
+                    window.setTimeout(nextQuestion, 2000);             
+                } else {
+                    countdown.hide();
+                    question.hide();
+                    clearInterval(qCountdown);
+                    answer.text("You guessed incorrectly, the answer is " + ans);
                     incorrect++;
-                    window.setTimeout(nextQuestion, 5000);
-                }
-            })
-        }
-        window.setTimeout(nextQuestion, 30000);
+                    qCounter++;
+                    button.off("click");
+                    window.setTimeout(nextQuestion, 2000);
+                };
+            });
+        game.shift();
+        };
+
+
+
         $("#startBtn").on("click", function () {
+            game = $.extend(true, [], b);
             newGame();
         })
+    });
 
     </script>
 

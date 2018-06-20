@@ -1,4 +1,10 @@
 .jumbotron {
     margin: auto;
-    transform: translate(0%, 75%);
+    transform: translate(0%, 10%);
+}
+
+.row {
+    display: block;
+    margin: auto;
+    margin-top: 20px;
 }
