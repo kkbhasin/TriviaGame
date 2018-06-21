@@ -15,17 +15,18 @@
 
 <body>
     <div class="jumbotron text-center col-10">
-        <h1>GAME OF THRONES TV TRIVIA MANIA</h1>
+        <h1>GAME  OF  THRONES  TV  TRIVIA  MANIA</h1>
         <h2><span id="timeout"></span></h2>
-        <h2><span id="question"></span></h2>
-        <h2><span id="answer"></span></h2>
-        <h2><span id="correct"></span></h2>
-        <h2><span id="incorrect"></span></h2>
-        <h2><span id="unanswered"></span></h2>
-        <div class="row"><button class="btn btn-outline-primary optBtn"></button></div>
-        <div class="row"><button class="btn btn-outline-success optBtn"></button></div>
-        <div class="row"><button class="btn btn-outline-danger optBtn"></button></div>
-         <div class="row"><button class="btn btn-outline-warning optBtn"></button></div>
+        <h3><span id="question"></span></h3>
+        <h3><span id="answer"></span></h3>
+        <h3><span id="correct"></span></h3>
+        <h3><span id="incorrect"></span></h3>
+        <h3><span id="unanswered"></span></h3>
+        <h3><span id="unanswered"></span></h3>
+        <div class="row"><button class="btn btn-primary optBtn"></button></div>
+        <div class="row"><button class="btn btn-success optBtn"></button></div>
+        <div class="row"><button class="btn btn-danger optBtn"></button></div>
+         <div class="row"><button class="btn btn-warning optBtn"></button></div>
         <button class="btn btn-primary btn-lg" id="startBtn">Start the game!</button>
     </div>
 
@@ -99,6 +100,9 @@
         ]
 
         var b = $.extend(true, [], game);
+        var qCountdown;
+        var ans;
+        var counter;
 
 $(document).ready(function(){
         var correct=0;
@@ -140,27 +144,32 @@ $(document).ready(function(){
                 return;
             };
             var quest = question.text(game[0][0]);
-            var ans = game[0][2];
+            ans = game[0][2];
             var img;
             // console.log();
 
+            
             // Set a condition and display for if the counter reaches 0.
-            var counter = 8;
-            var qCountdown = setInterval(function(){
-            counter--
+            counter = 4;
+            qCountdown = setInterval(function(){
+            counter--;
             countdown.text(counter);
             if (counter === 0) {
+                game.shift();
                 clearInterval(qCountdown);
                 countdown.hide();
                 button.hide();
+                console.log(counter + "TimeUp");
+                console.log(game.length + "TimeUp");
                 answer.text("The correct answer is " + ans + ".");
                 $("#unanswered").text("Uh oh, you did not answer the question in time.");
                 unanswered++;
                 qCounter++;
-                window.setTimeout(nextQuestion, 2000);
+                window.setTimeout(nextQuestion, 3000);
                 // return;
             }
             }, 1000);
+
 
             // To assign each option button with one of the four options.
             for (i=0; i<4; i++) {
@@ -176,36 +185,39 @@ $(document).ready(function(){
                     i++;
                 });
             }
+            test();
 
-            // On-click function for the buttons to register a correct or incorrect guess. 
-            button.on("click", function () {
+        // game.shift();
+        };
+function test () {
+                // On-click function for the buttons to register a correct or incorrect guess. 
+                button.on("click", function () {
                 button.hide();
                 console.log(b);
+
                 options = $(this).attr("data-value");
+                countdown.hide();
+                question.hide();
+                clearInterval(qCountdown);
+                window.setTimeout(nextQuestion, 3000);  
+                qCounter++;
+                game.shift();
                 if (options === ans) {
-                    countdown.hide();
-                    question.hide();
-                    clearInterval(qCountdown);
+                    console.log(counter + "Click");
+                    console.log(game.length + "Click");
                     answer.text("You guessed correctly, the answer is " + ans);
                     correct++;
-                    qCounter++;
                     button.off("click");
-                    window.setTimeout(nextQuestion, 2000);             
+                    return;
                 } else {
-                    countdown.hide();
-                    question.hide();
-                    clearInterval(qCountdown);
+                    console.log(counter + "Click");
+                    console.log(game.length + "Click");
                     answer.text("You guessed incorrectly, the answer is " + ans);
                     incorrect++;
-                    qCounter++;
                     button.off("click");
-                    window.setTimeout(nextQuestion, 2000);
                 };
             });
-        game.shift();
-        };
-
-
+}
 
         $("#startBtn").on("click", function () {
             game = $.extend(true, [], b);
