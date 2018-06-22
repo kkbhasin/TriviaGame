@@ -43,17 +43,60 @@ N/A
 
 ## Versioning
 
-Commits on Jun 13, 2018
+Commits on Jun 22, 2018
+    to make images responsive
 
-    uploading main files
     @kkbhasin
-    kkbhasin committed 29 minutes ago
+    kkbhasin committed 20 minutes ago
 
-Commits on Jun 7, 2018
+    to add readme.txt
+
+    @kkbhasin
+    kkbhasin committed 34 minutes ago
+ 
+Commits on Jun 21, 2018
+    to get the (re)start game fn to work, to add images into html
+
+    @kkbhasin
+    kkbhasin committed 18 hours ago
+ 
+Commits on Jun 20, 2018
+    still working through code
+
+    @kkbhasin
+    kkbhasin committed 2 days ago
+ 
+    updates to make the questions and timer work
+
+    @kkbhasin
+    kkbhasin committed 2 days ago
+ 
+Commits on Jun 18, 2018
+    edits jun/18
+
+    @kkbhasin
+    kkbhasin committed 4 days ago
+
+    adding jquery
+
+    @kkbhasin
+    kkbhasin committed 4 days ago
+ 
+Commits on Jun 17, 2018
+    adding html and jscript
+
+    @kkbhasin
+    kkbhasin committed 5 days ago
+
+    creating app structure
+
+    @kkbhasin
+    kkbhasin committed 5 days ago
 
     Initial commit
+
     @kkbhasin
-    kkbhasin committed 6 days ago
+    kkbhasin committed 5 days ago
 
 
 ## Authors
