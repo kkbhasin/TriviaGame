@@ -115,6 +115,7 @@ $(document).ready(function () {
             test();
             // Set a condition and display for if the counter reaches 0.
             counter = 10;
+            countdown.text(counter);
             qCountdown = setInterval(function () {
                 counter--;
                 countdown.text(counter);
